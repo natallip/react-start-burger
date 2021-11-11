@@ -18,7 +18,10 @@ class Landing extends React.Component {
     this.setState({ title, url, display: false });
   };
 
-  goToRestaurant = () => {};
+  goToRestaurant = () => {
+    const { url } = this.state;
+    this.props.history.push(`/restaurant/${url}`);
+  };
 
   render() {
     return (

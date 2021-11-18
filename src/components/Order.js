@@ -35,6 +35,8 @@ class Order extends React.Component {
       const count = this.props.order[key];
       const isAvailable = burger && burger.status === "available";
 
+      if (!burger) return null;
+
       if (isAvailable) {
         return prevTotal + burger.price * count;
       }

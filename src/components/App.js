@@ -11,11 +11,36 @@ class App extends React.Component {
     order: {},
   };
 
+  componentDidMount() {
+    const { params } = this.props.match;
+    const localStorageRef = localStorage.getItem(params.restaurantId);
+
+    if (localStorageRef) this.setState({ order: JSON.parse(localStorageRef)});
+
+    // this.ref = base.sync(`${params.restaurantId}/burgers`, {
+    //   context: this,
+    //   state: 'burgers'
+    // });
+  };
+
+  componentDidUpdate() {
+    const { params } = this.props.match;
+
+    localStorage.setItem(params.restaurantId, JSON.stringify(this.state.order));
+  };
+
   addBurger = (burger) => {
     const burgers = { ...this.state.burgers };
     burgers[`burger${Date.now()}`] = burger;
     this.setState({ burgers });
   };
+
+  updateBurger = (key, updatedBurger) => {
+    const burgers = { ...this.state.burgers };
+
+    burgers[key] = updatedBurger;
+    this.setState({ burgers });
+  }
 
   loadSampleBurgers = () => {
     this.setState({ burgers: sampleBurgers });
@@ -49,6 +74,8 @@ class App extends React.Component {
         <MenuAdmin
           addBurger={this.addBurger}
           loadSampleBurgers={this.loadSampleBurgers}
+          burgers={this.state.burgers}
+          updateBurger={this.updateBurger}
         />
       </div>
     );

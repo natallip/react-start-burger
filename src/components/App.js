@@ -42,15 +42,28 @@ class App extends React.Component {
     this.setState({ burgers });
   }
 
+  deleteBurger = (key) => {
+    const burgers = { ...this.state.burgers };
+    burgers[key] = null;
+    this.setState({ burgers });
+  };
+
   loadSampleBurgers = () => {
     this.setState({ burgers: sampleBurgers });
   };
 
   addToOrder = (key) => {
     const order = { ...this.state.order };
+    delete order[key];
+    this.setState({ order });
+  };
+
+  deleteFromOrder = (key) => {
+    const order = { ...this.state.order };
     order[key] = order[key] + 1 || 1;
     this.setState({ order });
   };
+
 
   render() {
     return (
@@ -64,6 +77,7 @@ class App extends React.Component {
                   key={key}
                   index={key}
                   addToOrder={this.addToOrder}
+                  deleteFromOrder={this.deleteFromOrder}
                   details={this.state.burgers[key]}
                 />
               );
@@ -76,6 +90,7 @@ class App extends React.Component {
           loadSampleBurgers={this.loadSampleBurgers}
           burgers={this.state.burgers}
           updateBurger={this.updateBurger}
+          deleteBurger={this.deleteBurger}
         />
       </div>
     );
